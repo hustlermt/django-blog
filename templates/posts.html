@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Posts{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+    </button>
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="row">
+  {% for post in posts %}
+    <div class="col-md-4">
+      <div class="card mb-3">
+
+        <img src="{{post.image.url}}" alt="Post image">
+        <div class="card-body">
+          <p class="card-text">{{post.title | truncatechars:30}}</p>
+          <small class="text-muted">{{post.timestamp | date:"jS F Y"}}</small><br>
+
+        </div>
+        
+        <div class="card-footer text-muted">
+          <a href="{% url 'blog:post' post.id %}" class="card-link mr-5">Read More</a>
+          <a href="{% url 'blog:delete_post' post.id %}" class="btn btn-danger ml-5 mr-5">Delete</a>
+          <a href="{% url 'blog:edit_post' post.id %}" class="btn btn-info">Edit</a>
+        </div>
+      </div>
+
+    </div>
+  {% endfor %}
+
+
+{% endblock content %}
