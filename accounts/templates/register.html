@@ -1,18 +1,43 @@
-{% extends "base.html" %}
+{% extends 'auth_shared.html' %}
+{% load static %}
 
-{% block content %} 
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="row">
 
-{% load crispy_forms_tags %}         
+    <div class="col-md-6 offset-md-3">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+            </button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form action="{% url 'accounts:register' %}" method="POST">
+            {% csrf_token %}
 
-<!--Register--> 
-<div class="container py-5">
-	<h1>Register</h1>
-	<form method="POST">
-		{% csrf_token %}
-		{{ register_form|crispy }}                    
-		<button class="btn btn-primary" type="submit">Register</button>
-	</form>
-	<p class="text-center">If you already have an account, <a href="{% url 'accounts:login'%}">login</a> instead.</p>
+
+            <div class="form-group mb-3">
+                <label for="username" class="form-label mt-4">Username</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
+
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="password" class="form-label mt-4">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{% url 'accounts:login' %}">Login</a>
+
+        </form>
+
+    </div>
 </div>
+
 
 {% endblock %}
